@@ -2,13 +2,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import React, { useState } from "react";
-import { useGlobalState, useGlobalStateUpdate } from "./../../../context/GlobalContext"
+// import { useGlobalState, useGlobalStateUpdate } from "./../../../context/GlobalContext"
+
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { baseUrl } from '../../../core/index'
-import {
-  useHistory
-} from 'react-router-dom';
 
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
@@ -27,7 +23,7 @@ const SignUp = () => {
        history.push("/login")
      }
 
-function signUp(e) {
+function signup(e) {
  e.preventDefault()
 
  let name = document.getElementById("name1").value
@@ -39,24 +35,25 @@ function signUp(e) {
    email:email,
    password :password
  }
- axios ({
-   method : "post",
-   url:url + "/signup",
-   data : newdata,
-   withCredentials : true
- }).then ((response) => {
-   if(response.data.status === 200) {
-     setChange(false)
-   }
-
-   else {
-     history.push("/signup")
-     setShow(response.data.message)
-   }
- }).catch ((error) => {
-   console.log(error)
- });
+ axios({
+  method: 'post',
+  url: url + '/signup',
+  data: newData,
+  withCredentials: true
+}).then((response) => {
+  if (response.data.status === 200) {
+      setChange(false)
+  }
+  else {
+      history.push("/signup");
+      setShow(response.data.message)
+  }
+}).catch((error) => {
+  console.log(error);
+});
 }
+
+
 
   return (
     <MDBContainer>
@@ -64,7 +61,7 @@ function signUp(e) {
         <MDBCol md="6">
           <MDBCard>
             <MDBCardBody>
-              <form>
+              <form onSubmit = {signup}>
                 <p className="h4 text-center py-4">Sign up</p>
                 <div className="grey-text">
                   <MDBInput

@@ -10,7 +10,8 @@ import Signup from './../home/form1/signup'
 import Forget1 from './../../forgetpass/ForgetPass1'
 // import Admin from '../admin/admin'
 // import AdminDashboard from '../admin/adminDashboard'
-import { useGlobalState } from '../../context/globalContext'
+// import { useGlobalState } from '../../context/globalContext'
+import {useGlobalState} from '../../context/GlobalContext'
 function RoutesConfig() {
     const globalState = useGlobalState()
 
