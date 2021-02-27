@@ -94,9 +94,9 @@ const Login = () => {
     });
   }
 
-  function forget() {
-    history.push("/forgetpass")
-  }
+  function goToForget() {
+    history.push("/forgetpw");
+}
 
 
 

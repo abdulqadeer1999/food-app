@@ -2,6 +2,9 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import React, { useState } from "react";
+import {
+  useHistory
+} from "react-router-dom";
 // import { useGlobalState, useGlobalStateUpdate } from "./../../../context/GlobalContext"
 
 import axios from "axios";
@@ -30,7 +33,7 @@ function signup(e) {
  let email = document.getElementById("email1").value
  let password = document.getElementById("pass1").value
 
- let newdata = {
+ let newData = {
    name:name,
    email:email,
    password :password

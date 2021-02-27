@@ -9,8 +9,44 @@ var SERVER_SECRET = process.env.SECRET || "1234";
 var jwt = require('jsonwebtoken')
 var app = express()
 var authRoutes = require('./routes/auth')
-// var adminRoutes = require('./routes/adminRoutes')
-var adminRoutes = require("./routes/admin")
+const admin = require("firebase-admin");
+const multer = require('multer')
+
+
+
+
+
+
+const storage = multer.diskStorage({ // https://www.npmjs.com/package/multer#diskstorage
+    destination: './uploads/',
+    filename: function (req, file, cb) {
+        cb(null, `${new Date().getTime()}-${file.filename}.${file.mimetype.split("/")[1]}`)
+    }
+})
+var upload = multer({ storage: storage })
+
+// const admin = require("firebase-admin");
+// https://firebase.google.com/docs/storage/admin/start
+var serviceAccount =  // create service account from here: https://console.firebase.google.com/u/0/project/delete-this-1329/settings/serviceaccounts/adminsdk
+    {
+        "type": "service_account",
+        "project_id": "twitter-chat-d564a",
+        "private_key_id": "6ddd83d04d63b4f0677b7c4c141c2d21b7d8a0e2",
+        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCnAbZ2JkfNc1QU\ndG9zQwF9wxrtjsE1wRzwoxcS5y9j7i5nTYXzChrviGjNmCRfPu/NgxWdjArQW30A\naBZCelyd4781PMMgZfkGUz/2NViz7zUBKu+qJDXBl4SVqtuM0M5clsJINAdJFJ+r\nfwOCs9Pw1pRJ4q/wemcHh6iAOnho1ez2RZswdq/YHlI9HnfPbZnu2tZvftowETmp\nuE7NByKhI0k2hZ7XFeEkT52htqTL5rzZV7FiBJVUpK7EVyhOTV79kA4Ur2BBjg8f\nwy+StsTtN2AYoLbsHY7vd1H1ZjeKW4FO9N+58hfu2IxpVn0ML1qvc8ykZpTb8vlv\nj9QNL5WTAgMBAAECggEAEv22Xnwe6SWGt6a/77b8ae0wWDhGD1NM865QFuW0NWRl\n4Xhm1YreIkP8SvjUlgIlqdSQtjAxIJ1uuwebFGcutgOqgCbPN5Vw+n+oA9rwIdH/\nUIkt5MamWEPfH1flDH/IH65DHIvSEkTmnU1dvFSvsrDr/vTotettYOVTy3UasS0H\ncyE0ej7hoaZyk66kTVoMDvsa5LmwHDOEvTXG0HzxcGT8P1WGEpZ/znk5eCruyfWx\niW6kOSHxOtHtugM9MC69cu7cIoQf5KslV/UOkg8pLw4FgGNbmF5Jh5tKcOzdyUOu\nVkH7nDoFyEfkbTIKg0XfwLr6uaf4yST3gCPUjTRsyQKBgQDSg2YkdEAeYGkwkrfK\nNhRBYY4q4SHcUC0W5vaPU6qrvC7qGFgrJQVORkuFeif5ahWmjmuJ/f7qrQ6RYMOm\nU6cieZ9gge4EmBep8JGy8kpnKnW/AiRHVHsbL3QeY5ZVKY2y+zWCV1LM9esrSdLy\nuREeLOYskxR8pD8Mog71PpzAKQKBgQDLF7wUJly8fbL1qF3rT4RW0PcScV5JFvOC\nhfAjUrC/MP4sgg+Esgcl49ZgEmIikPJfiqeIWpZORq1VmzEETx7jrZR6V9oPOJ5T\n5v28eyChoXaa35ki+2koitxU7x2c81QqfiAiwhz3HIalW6420vV2AoCXM1JATRPc\nsEJp8anvWwKBgQCcLHdenA/leUkQjAhlr/EfACzkitkABUsuLnLEqiF3/sgfS6g9\ned2R0Hy+rX1yf81IH2iQmyq/F1wzZkI/5tebr/cZNctLBTqpDJxK0Y15M/relcws\nTvR1mqLe2Kryyz0gh1WPORFolRi+qKojAEE+zbiFYShVv9Q2nxPRxX2s4QKBgQCL\nkX4RIuPsLT4FEHWqtnSt7OE+bWZsODeUZVNIExWf7p1eHOtpN6ct5Mt4Lmn+czn9\nap4DWK2ekXehMwuWeIEz2iAFi8YxW6mC42VQWBVuvjVx7WOh5MC5ueP9Am6JY7dd\nlFulR1z8fUAS91RcHNHPDZ0tS3mk8tNJgF/Dyu4LrQKBgEYTa6x4MoGjWTLB0P80\nUR3oLIcV92vNauVuKc9eKx7IDjqqHdow4snp5FfsahgehAKuuPxRaKFg42nMPFDy\ngbv6iVSPZatO7PZkigt3ySylz2ihWAJQjDMYVj8XCDTAmzJV5FOkDSK8CpB5a6kA\ntikcXKgKBkD2LFiBFD5Nm+KU\n-----END PRIVATE KEY-----\n",
+        "client_email": "firebase-adminsdk-lhfe2@twitter-chat-d564a.iam.gserviceaccount.com",
+        "client_id": "108969986213665090568",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-lhfe2%40twitter-chat-d564a.iam.gserviceaccount.com"
+      };
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://twitter-chat-d564a-default-rtdb.firebaseio.com/"
+});
+const bucket = admin.storage().bucket("gs://twitter-chat-d564a.appspot.com");
+
+
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -64,26 +100,26 @@ app.use(function (req, res, next) {
     });
 })
 
-app.get("/profile", (req, res, next) => {
+// app.get("/profile", (req, res, next) => {
 
-    console.log(req.body)
+//     console.log(req.body)
 
-    foodUserModel.findById(req.body.jToken.id, 'name email phone role createdOn',
-        function (err, doc) {
-            console.log("doc", doc)
-            if (!err) {
-                res.send({
-                    status: 200,
-                    profile: doc
-                })
+//     foodUserModel.findById(req.body.jToken.id, 'name email phone role createdOn',
+//         function (err, doc) {
+//             console.log("doc", doc)
+//             if (!err) {
+//                 res.send({
+//                     status: 200,
+//                     profile: doc
+//                 })
 
-            } else {
-                res.status(500).send({
-                    message: "server error"
-                })
-            }
-        })
-})
+//             } else {
+//                 res.status(500).send({
+//                     message: "server error"
+//                 })
+//             }
+//         })
+// })
 app.post("/addProduct", upload.any(), (req, res, next) => {
 
     console.log("req.body: ", req.body);

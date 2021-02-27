@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import { useGlobalState} from '../../context/globalContext'
+import { useGlobalState} from '../../context/GlobalContext'
 function Navbar(props) {
     const globalState = useGlobalState()
     return (

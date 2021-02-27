@@ -1,14 +1,14 @@
 var express = require('express')
 var bcrypt = require("bcrypt-inzi")
 var jwt = require('jsonwebtoken');
-var { foodUserModel, foodOtpModel, } = require('../dbconn/module')
+var { foodUserModel, foodOtpModel, } = require('../dbrepo/models')
 var router = express.Router();
 var SERVER_SECRET = process.env.SECRET || "1234";
 var postmark = require("postmark");
-var emailApi = process.env.EMAIL_API || "03d41ca2-fd57-4edd-9e9e-506ac1aaf894"; 
+var emailApi = process.env.EMAIL_API || "9cc2c15c-4f23-43b7-bd80-2bf7e466c83f"; 
 var client = new postmark.ServerClient(emailApi);
 
-var client = new postmark.Client("03d41ca2-fd57-4edd-9e9e-506ac1aaf894");
+var client = new postmark.Client("9cc2c15c-4f23-43b7-bd80-2bf7e466c83f");
 
 router.post("/signup", (req, res, next) => {
     console.log(req.body)
