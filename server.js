@@ -3,13 +3,14 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var cors = require("cors");
 var morgan = require("morgan");
-var { foodUserModel, foodOrderModel, foodOrderModel } = require('./dbconn/module')
+var { foodUserModel, foodOrderModel, foodOrderModel } = require('./dbrepo/models')
 var path = require("path")
 var SERVER_SECRET = process.env.SECRET || "1234";
 var jwt = require('jsonwebtoken')
 var app = express()
 var authRoutes = require('./routes/auth')
-var adminRoutes = require('./routes/adminRoutes')
+// var adminRoutes = require('./routes/adminRoutes')
+var adminRoutes = require("./routes/admin")
 
 app.use(bodyParser.json());
 app.use(cookieParser());

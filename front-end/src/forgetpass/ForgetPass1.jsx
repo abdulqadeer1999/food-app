@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios'
+import {
+    useHistory
+} from "react-router-dom";
+// import { useGlobalState, useGlobalStateUpdate } from '../../context/globalContext'
+import {useGlobalState,useGlobalStateUpdate} from '../context/GlobalContext'
 
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-const Forget1 = () => {
+const ForgetPw = () => {
 
     let url = 'http://localhost:5000'
     let [next, setNext] = useState(true);
@@ -131,12 +138,12 @@ const Forget1 = () => {
                     Change Password
                   </MDBBtn>
                 </div>
-                <p className='mt-3' onClick={goToForget}
+                <p className='mt-3' 
                   style={{ cursor: "pointer" }}>Forget Password</p>
                 <br />
-                {show ? <div className="alert alert-danger" role="alert">
+                {/* {show ? <div className="alert alert-danger" role="alert">
                   {show}
-                </div> : null}
+                </div> : null} */}
               </form>
             </MDBCardBody>
           </MDBCard>
@@ -146,4 +153,4 @@ const Forget1 = () => {
   );
 };
 
-export default Forget1;
+export default ForgetPw;

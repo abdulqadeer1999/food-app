@@ -1,7 +1,9 @@
 import React from 'react'
 import axios from "axios"
-import { useGlobalState, useGlobalStateUpdate } from '../../../context/globalContext'
-import Navbar from '../../Navbar/Navbar'
+// import { useGlobalState, useGlobalStateUpdate } from '../../../context/globalContext'
+import {useGlobalState,useGlobalStateUpdate} from '../../../../context/GlobalContext'
+// import Navbar from '../../Navbar/Navbar'
+import Navbar from '../../../Navbar/Nav'
 export default function CheckoutFrom() {
     const globalState = useGlobalState()
     globalState.cartData && globalState.cartData.cartItems.map(value => {

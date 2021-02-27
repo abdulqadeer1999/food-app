@@ -1,17 +1,18 @@
 import React from "react";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-// import Home from '../home/Home.jsx'
-// import Login from '../login/Login.jsx'
-import Login from '../login/login'
-// import Signup from './../signup/Signup.jsx'
+// import Login from './../login/Login.jsx'
+import Login from './../login/login'
 import Signup from './../home/form1/signup'
 // import Dashboard from './../dashboard/Dashboard.jsx'
-// import ForgetPw from './../forgetPw/ForgetPassS1'
-import Forget1 from './../../forgetpass/ForgetPass1'
-// import Admin from '../admin/admin'
-// import AdminDashboard from '../admin/adminDashboard'
-// import { useGlobalState } from '../../context/globalContext'
-import {useGlobalState} from '../../context/GlobalContext'
+import Dashboard from './../dashboard/cart/Dashboard'
+import ForgetPw from './../../forgetpass/ForgetPass1'
+import AdminDashboard from '../admin/adminDash'
+import Basket from '../dashboard/cart/cart/Basket'
+import CheckOutForm from '../dashboard/cart/cart/checkForm'
+// import AddProducts from '../admin/AddProducts'
+import AddProducts from '../admin/Products'
+
+import { useGlobalState } from '../../context/GlobalContext'
 function RoutesConfig() {
     const globalState = useGlobalState()
 

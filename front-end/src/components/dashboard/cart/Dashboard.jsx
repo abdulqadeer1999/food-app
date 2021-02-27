@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import Basket from './cart/Basket';
 // import products from './data';
 import products from '../cart/cart/Basket'
-import Navbar from '../Navbar/Navbar'
+import Navbar from '../../Navbar/Nav'
 // import BaseUrl from '../../baseUrl/BaseUrl'
 import BaseUrl from '../../../baseUrl/BaseUrl'
 import axios from 'axios'
 import { useHistory } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../context/globalContext'
+import { useGlobalState, useGlobalStateUpdate } from '../../../context/GlobalContext'
 
 function Dashboard() {
     const globalState = useGlobalState()

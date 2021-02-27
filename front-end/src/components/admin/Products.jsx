@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import Navbar from '../Navbar/Navbar'
+// import Navbar from '../Navbar/Navbar'
+import Navbar from '../Navbar/Nav'
 import axios from 'axios'
 import Url from '../../baseUrl/BaseUrl'
 function AddProducts() {

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import '../Dashboard.css'
 import axios from 'axios'
 import {useHistory} from 'react-router-dom'
-import { useGlobalState, useGlobalStateUpdate } from '../../../context/globalContext'
+// import { useGlobalState, useGlobalStateUpdate } from '../../../context/globalContext'
+import {useGlobalState,useGlobalStateUpdate} from '../../../../context/GlobalContext'
 export default function Basket(props) {
   const globalState = useGlobalState()
   const globalStateUpdate = useGlobalStateUpdate()  

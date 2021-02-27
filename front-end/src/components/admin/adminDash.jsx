@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Navbar from '../Navbar/Navbar'
+// import Navbar from '../Navbar/Navbar'
+import Navbar from '../Navbar/Nav'
 import axios from 'axios'
 import { useHistory } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../context/globalContext'
+import { useGlobalState, useGlobalStateUpdate } from '../../context/GlobalContext'
 function AdminDashboard() {
     let [orderData, setOrderData] = useState([])
     const globalStateUpdate = useGlobalStateUpdate()
