@@ -26,10 +26,10 @@ function Signup()  {
        history.push("/login")
      }
 
-function signup(e) {
- e.preventDefault()
+function signup(event) {
+ event.preventDefault()
 
- let name = document.getElementById("name").value;
+ let name = document.getElementById("name").value
  let email = document.getElementById("email").value
  let password = document.getElementById("password").value
 
@@ -48,7 +48,7 @@ function signup(e) {
       setChange(false)
   }
   else {
-      history.push("/signup");
+      history.push('/login');
       setShow(response.data.message)
   }
 }).catch((error) => {
@@ -64,9 +64,11 @@ function signup(e) {
         <MDBCol md="6">
           <MDBCard>
             <MDBCardBody>
-              <form onSubmit = {signup}>
+              
                 <p className="h4 text-center py-4">Sign up</p>
+                {/* <form onSubmit = {signup}> */}
                 <div className="grey-text">
+                <form onSubmit = {signup}>
                   <MDBInput
                     label="Your name"
                     icon="user"
@@ -95,12 +97,21 @@ function signup(e) {
                     validate
                     id="password"
                   />
-                </div>
-                <div className="text-center py-4 mt-3">
+                  
+                  <div className="text-center py-4 mt-3">
                   <MDBBtn color="cyan" type="submit">
                     Register
                   </MDBBtn>
                 </div>
+                </form>
+                </div>
+{/*                 
+                <div className="text-center py-4 mt-3">
+                  <MDBBtn color="cyan" type="submit">
+                    Register
+                  </MDBBtn>
+                </div> */}
+                
                 <div className="col">
                   <p>Already have an account?
                                             <span onClick={handleClick}
@@ -109,7 +120,8 @@ function signup(e) {
                      </span>
                   </p>
                 </div>
-              </form>
+              
+              
             </MDBCardBody>
           </MDBCard>
         </MDBCol>

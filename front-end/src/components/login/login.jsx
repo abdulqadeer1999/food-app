@@ -73,8 +73,8 @@ const Login = () => {
       method: "post",
       url: url + "/login",
       data: {
-        email: document.getElementById('email1').value,
-        password: document.getElementById("pass1").value,
+        email: document.getElementById('email').value,
+        password: document.getElementById("password").value,
       },
       withCredentials: true
     }).then((response) => {
@@ -128,7 +128,7 @@ const Login = () => {
                     validate
                     error="wrong"
                     success="right"
-                    id="email1"
+                    id="email"
                   />
                   {/* <MDBInput
                     label="Confirm your email"
@@ -145,7 +145,7 @@ const Login = () => {
                     group
                     type="password"
                     validate
-                    id="pass1"
+                    id="password"
                   />
                 </div>
                 <div className="text-center py-4 mt-3">
