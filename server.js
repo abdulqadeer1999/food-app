@@ -100,26 +100,28 @@ app.use(function (req, res, next) {
     });
 })
 
-// app.get("/profile", (req, res, next) => {
+ app.get("/profile", (req, res, next) => {
 
-//     console.log(req.body)
+    console.log(req.body)
 
-//     foodUserModel.findById(req.body.jToken.id, 'name email phone role createdOn',
-//         function (err, doc) {
-//             console.log("doc", doc)
-//             if (!err) {
-//                 res.send({
-//                     status: 200,
-//                     profile: doc
-//                 })
+    foodUserModel.findById(req.body.jToken.id, 'name email phone role createdOn',
+         function (err, doc) {
+             console.log("doc", doc)
+            if (!err) {
+                res.send({
+                    status: 200,
+                    profile: doc
+              })
 
-//             } else {
-//                 res.status(500).send({
-//                     message: "server error"
-//                 })
-//             }
-//         })
-// })
+             } else {
+                 res.status(500).send({
+                     message: "server error"
+                 })
+             }
+         })
+ });
+
+   
 app.post("/addProduct", upload.any(), (req, res, next) => {
 
     console.log("req.body: ", req.body);

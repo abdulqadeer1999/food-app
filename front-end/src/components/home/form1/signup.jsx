@@ -12,7 +12,7 @@ import axios from "axios";
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-const SignUp = () => {
+function Signup()  {
   
 
 
@@ -29,9 +29,9 @@ const SignUp = () => {
 function signup(e) {
  e.preventDefault()
 
- let name = document.getElementById("name1").value
- let email = document.getElementById("email1").value
- let password = document.getElementById("pass1").value
+ let name = document.getElementById("name").value;
+ let email = document.getElementById("email").value
+ let password = document.getElementById("password").value
 
  let newData = {
    name:name,
@@ -75,7 +75,7 @@ function signup(e) {
                     validate
                     error="wrong"
                     success="right"
-                    id=" name1"
+                    id=" name"
                   />
                   <MDBInput
                     label="Your email"
@@ -85,25 +85,15 @@ function signup(e) {
                     validate
                     error="wrong"
                     success="right"
-                    id="email1"
+                    id="email"
                   />
-                  {/* <MDBInput
-                    label="Confirm your email"
-                    icon="exclamation-triangle"
-                    group
-                    type="text"
-                    validate
-                    error="wrong"
-                    success="right"
-                    id = ""
-                  /> */}
                   <MDBInput
                     label="Your password"
                     icon="lock"
                     group
                     type="password"
                     validate
-                    id="pass1"
+                    id="password"
                   />
                 </div>
                 <div className="text-center py-4 mt-3">
@@ -128,4 +118,4 @@ function signup(e) {
   );
 };
 
-export default SignUp;
+export default Signup;
