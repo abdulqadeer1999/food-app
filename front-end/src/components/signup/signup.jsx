@@ -48,7 +48,7 @@ function signup(event) {
       setChange(false)
   }
   else {
-      history.push('/login');
+      history.push('/signup');
       setShow(response.data.message)
   }
 }).catch((error) => {
