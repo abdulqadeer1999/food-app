@@ -66,9 +66,9 @@ function signup(event) {
             <MDBCardBody>
               
                 <p className="h4 text-center py-4">Sign up</p>
-                {/* <form onSubmit = {signup}> */}
-                <div className="grey-text">
                 <form onSubmit = {signup}>
+                <div className="grey-text">
+            
                   <MDBInput
                     label="Your name"
                     icon="user"
@@ -77,7 +77,7 @@ function signup(event) {
                     validate
                     error="wrong"
                     success="right"
-                    id=" name"
+                    id="name"
                   />
                   <MDBInput
                     label="Your email"
@@ -103,7 +103,7 @@ function signup(event) {
                     Register
                   </MDBBtn>
                 </div>
-                </form>
+               
                 </div>
 {/*                 
                 <div className="text-center py-4 mt-3">
@@ -121,7 +121,7 @@ function signup(event) {
                   </p>
                 </div>
               
-              
+                </form>
             </MDBCardBody>
           </MDBCard>
         </MDBCol>

@@ -28,23 +28,24 @@ var upload = multer({ storage: storage })
 // const admin = require("firebase-admin");
 // https://firebase.google.com/docs/storage/admin/start
 var serviceAccount =  // create service account from here: https://console.firebase.google.com/u/0/project/delete-this-1329/settings/serviceaccounts/adminsdk
-    {
-        "type": "service_account",
-        "project_id": "twitter-chat-d564a",
-        "private_key_id": "6ddd83d04d63b4f0677b7c4c141c2d21b7d8a0e2",
-        "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCnAbZ2JkfNc1QU\ndG9zQwF9wxrtjsE1wRzwoxcS5y9j7i5nTYXzChrviGjNmCRfPu/NgxWdjArQW30A\naBZCelyd4781PMMgZfkGUz/2NViz7zUBKu+qJDXBl4SVqtuM0M5clsJINAdJFJ+r\nfwOCs9Pw1pRJ4q/wemcHh6iAOnho1ez2RZswdq/YHlI9HnfPbZnu2tZvftowETmp\nuE7NByKhI0k2hZ7XFeEkT52htqTL5rzZV7FiBJVUpK7EVyhOTV79kA4Ur2BBjg8f\nwy+StsTtN2AYoLbsHY7vd1H1ZjeKW4FO9N+58hfu2IxpVn0ML1qvc8ykZpTb8vlv\nj9QNL5WTAgMBAAECggEAEv22Xnwe6SWGt6a/77b8ae0wWDhGD1NM865QFuW0NWRl\n4Xhm1YreIkP8SvjUlgIlqdSQtjAxIJ1uuwebFGcutgOqgCbPN5Vw+n+oA9rwIdH/\nUIkt5MamWEPfH1flDH/IH65DHIvSEkTmnU1dvFSvsrDr/vTotettYOVTy3UasS0H\ncyE0ej7hoaZyk66kTVoMDvsa5LmwHDOEvTXG0HzxcGT8P1WGEpZ/znk5eCruyfWx\niW6kOSHxOtHtugM9MC69cu7cIoQf5KslV/UOkg8pLw4FgGNbmF5Jh5tKcOzdyUOu\nVkH7nDoFyEfkbTIKg0XfwLr6uaf4yST3gCPUjTRsyQKBgQDSg2YkdEAeYGkwkrfK\nNhRBYY4q4SHcUC0W5vaPU6qrvC7qGFgrJQVORkuFeif5ahWmjmuJ/f7qrQ6RYMOm\nU6cieZ9gge4EmBep8JGy8kpnKnW/AiRHVHsbL3QeY5ZVKY2y+zWCV1LM9esrSdLy\nuREeLOYskxR8pD8Mog71PpzAKQKBgQDLF7wUJly8fbL1qF3rT4RW0PcScV5JFvOC\nhfAjUrC/MP4sgg+Esgcl49ZgEmIikPJfiqeIWpZORq1VmzEETx7jrZR6V9oPOJ5T\n5v28eyChoXaa35ki+2koitxU7x2c81QqfiAiwhz3HIalW6420vV2AoCXM1JATRPc\nsEJp8anvWwKBgQCcLHdenA/leUkQjAhlr/EfACzkitkABUsuLnLEqiF3/sgfS6g9\ned2R0Hy+rX1yf81IH2iQmyq/F1wzZkI/5tebr/cZNctLBTqpDJxK0Y15M/relcws\nTvR1mqLe2Kryyz0gh1WPORFolRi+qKojAEE+zbiFYShVv9Q2nxPRxX2s4QKBgQCL\nkX4RIuPsLT4FEHWqtnSt7OE+bWZsODeUZVNIExWf7p1eHOtpN6ct5Mt4Lmn+czn9\nap4DWK2ekXehMwuWeIEz2iAFi8YxW6mC42VQWBVuvjVx7WOh5MC5ueP9Am6JY7dd\nlFulR1z8fUAS91RcHNHPDZ0tS3mk8tNJgF/Dyu4LrQKBgEYTa6x4MoGjWTLB0P80\nUR3oLIcV92vNauVuKc9eKx7IDjqqHdow4snp5FfsahgehAKuuPxRaKFg42nMPFDy\ngbv6iVSPZatO7PZkigt3ySylz2ihWAJQjDMYVj8XCDTAmzJV5FOkDSK8CpB5a6kA\ntikcXKgKBkD2LFiBFD5Nm+KU\n-----END PRIVATE KEY-----\n",
-        "client_email": "firebase-adminsdk-lhfe2@twitter-chat-d564a.iam.gserviceaccount.com",
-        "client_id": "108969986213665090568",
-        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-        "token_uri": "https://oauth2.googleapis.com/token",
-        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-        "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-lhfe2%40twitter-chat-d564a.iam.gserviceaccount.com"
-      };
+{
+    "type": "service_account",
+    "project_id": "auth-production-89fa8",
+    "private_key_id": "0e299704d49dde4599c4f47f8d4219b2a014f17c",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDKiSxuok+VXrwq\npBklvs7o0dDDaexBJq9loYxo3VA5THX48cF+6fSHZgQWGTA8J6Ng0bf59nIppIWr\nLphYb/C6FS34YnCrnldXRM/EBI/BWXQhSwxV+9nj2nK7g4m3mJXMNtBndAMy9fff\nkGlrYskVf4Q4gjn7EQdAwx7efpP1IXdOcq9B2SDVb96Wwsh2s/RwBqMZ0gURgrwN\nbOQEP2SnnNVgUGnPCbAD93bKVaDy/DuI/rCodoxJhvp0D6ePuXYl33363xWGtq95\ntNrU6viF/Oltk/Jrk8E3NF0QoNlyABAG5mpEQxWGy/4c7Af8evF6Eq17/t9+7wpO\nSQ47j9SVAgMBAAECggEAGHaxMzvPuQ8UU2I212RQwbZ2LORicQwnK3Nz7katJf6i\nUUuCP74qlyAvZivss5dmGI+8VSj7aSRCMQcTx7rdrNxaDSJ20YPysMvS/K5AXu5b\nJJpYBxrAmtEMArJEtDRuA5irW5Obv1AOfKaI1Tu9Zidc5SZ1smnAIoZu+Bj57iXB\nqIX3oI5OyqZdEr3D1JHWeUGnOBVnRS5khOL3HO0euqfRyl0Ru5w3duiA5TC9rpai\nocXq/xnDraW1SigIYk+veuM9mdpqV1bMWqnRNgfBPl29rRfcnM0Bun1N8CeBNibd\n4KZ+YVG8JG7/aR6kjGkrgE913BmBKhABcJK8tuhvkQKBgQDpvbbR7Q4CbgCyaGWG\npv1LQbmtt5nfjJyOpZ3Ikj/t7L4aIDzbs8Dhv3YCwHyfnEaMWI9W2XetRp7JkXlX\n2Tz+E2UjCYJgjemkn+yOUyOugwMw57DRwde1OmMOG7fQivw7rv1gC+7P4EtFryva\nweqUU75hYxwJ4PYKj+pMkoq9DwKBgQDd0rf6nSvmXGbF88109jVVYtDjed8rQbVa\ntEbDfDWtEVQLgty0Pst8zNmulT4zKc/nk4Fvox5YPTPmYQ6IS8NtxQiiLxDEcClq\nAtkelvZFBwS3AiaY8d01yV1CntcjoEDit8C2JKm7CZ56VTxOgSNRVIs0TzyykzK1\neShiZjvcGwKBgFlcJSumhCebpHqQfNf4uXdu/iySt6oGWMgUOvk2KGiujJLyZjHc\nS85CYzx0GHDwzuvS46Hha+Z7zDLlgc17CN1dztmRRh3hw0Qju81Bra+G+M5WlXvr\nrqrjUoFPSXvZ1sp+gPGaPkeMyVovuQVeA2+HgI481LhWH9oz4PA7Sf0zAoGAQikm\nXKZiQJwQvzv/bMI+mBAYE7D24jT//WTFsmqqq8r+UUyfvVb5ZGjJCGxVF/eBniV9\ntqllVJY0k6MhLX/Dc0sQTydQjfaSM59T2O7X1zDHtDn8/yMsgm1j1on/yw1yLOz3\nmpwGz9WHoh8oFJYpzYk0185GYVDMEBpp9Cdf9T8CgYA2av8cPG9RFdn1VSmDciIc\nnOwyfrR5d1cClnzGqk8uNswPAr0zUHu0S+4Oqz1P3S9HErRPrF9PVn8SutiMGReq\nEdezadjz9PEAp1mQ8IcYA/PXE4PJXfzW7Lxh2sGqzuE1uHpEw+jPyiuhyVXS8zPq\niRLScDgq45eq+ouVaVq5OA==\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-clna5@auth-production-89fa8.iam.gserviceaccount.com",
+    "client_id": "115557154223056350282",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-clna5%40auth-production-89fa8.iam.gserviceaccount.com"
+  }
+  
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://twitter-chat-d564a-default-rtdb.firebaseio.com/"
+    databaseURL: "https://auth-production-89fa8-default-rtdb.firebaseio.com/"
 });
-const bucket = admin.storage().bucket("gs://twitter-chat-d564a.appspot.com");
+const bucket = admin.storage().bucket("gs://auth-production-89fa8.appspot.com");
 
 
 
@@ -56,7 +57,7 @@ app.use(cors({
     credentials: true
 }));
 app.use(morgan('dev'));
-// app.use("/", express.static(path.resolve(path.join(__dirname, "public")));
+app.use("/", express.static(path.resolve(path.join(__dirname, "../front-end/build"))));
 
 app.get('/', (req, res, next) => {
     res.send("running")
