@@ -26,8 +26,8 @@ const Login = () => {
       method: "post",
       url: url + "/login",
       data: {
-        email: document.getElementById('email').value,
-        password: document.getElementById("password").value,
+        email: document.getElementById('email1').value,
+        password: document.getElementById("password1").value,
       },
       withCredentials: true
     }).then((response) => {
@@ -39,7 +39,7 @@ const Login = () => {
           roll: "user"
         }))
       } else {
-        history.push("/login");
+        history.push("/cart");
         setShow(response.data.message)
       }
     }).catch((error) => {
@@ -81,7 +81,7 @@ const Login = () => {
                     validate
                     error="wrong"
                     success="right"
-                    id="email"
+                    id="email1"
                   />
                   {/* <MDBInput
                     label="Confirm your email"
@@ -98,7 +98,7 @@ const Login = () => {
                     group
                     type="password"
                     validate
-                    id="password"
+                    id="password1"
                   />
                 </div>
                 <div className="text-center py-4 mt-3">

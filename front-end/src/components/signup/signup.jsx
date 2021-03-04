@@ -40,7 +40,7 @@ function signup(event) {
  }
  axios({
   method: 'post',
-  url: url + '/signup',
+  url: url + '/login',
   data: newData,
   withCredentials: true
 }).then((response) => {
@@ -48,7 +48,7 @@ function signup(event) {
       setChange(false)
   }
   else {
-      history.push('/signup');
+      history.push('/login');
       setShow(response.data.message)
   }
 }).catch((error) => {
