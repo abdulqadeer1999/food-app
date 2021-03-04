@@ -8,6 +8,7 @@ import {
   useHistory
 } from "react-router-dom"
 import { useGlobalState, useGlobalStateUpdate } from '../../context/GlobalContext';
+import URL from '../../baseUrl/BaseUrl'
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
@@ -24,7 +25,7 @@ const Login = () => {
     e.preventDefault();
     axios({
       method: "post",
-      url: url + "/login",
+      url: URL + "/login",
       data: {
         email: document.getElementById('email1').value,
         password: document.getElementById("password1").value,
@@ -36,25 +37,20 @@ const Login = () => {
           ...prev,
           loginStatus: true,
           user: response.data.user,
-          roll: "user"
+          roll: response.data.user.roll
         }))
-      } else {
-        history.push("/cart");
-        setShow(response.data.message)
       }
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
-  function goToForget() {
-    history.push("/forgetpw");
+      else {
+        history.push("/login");
+        setShow(response.data.message)
+    }
+}).catch((error) => {
+    console.log(error);
+});
 }
-
-
-
-
-
+function goToForget() {
+history.push("/forgetpw");
+}
   return (
     <MDBContainer>
       <MDBRow>
@@ -64,15 +60,7 @@ const Login = () => {
               <form  onSubmit={login}>
                 <p className="h4 text-center py-4">Sign In</p>
                 <div className="grey-text">
-                  {/* <MDBInput
-                    label="Your name"
-                    icon="user"
-                    group
-                    type="text"
-                    validate
-                    error="wrong"
-                    success="right"
-                  /> */}
+                  
                   <MDBInput
                     label="Your email"
                     icon="envelope"
@@ -83,15 +71,7 @@ const Login = () => {
                     success="right"
                     id="email1"
                   />
-                  {/* <MDBInput
-                    label="Confirm your email"
-                    icon="exclamation-triangle"
-                    group
-                    type="text"
-                    validate
-                    error="wrong"
-                    success="right"
-                  /> */}
+                  
                   <MDBInput
                     label="Your password"
                     icon="lock"

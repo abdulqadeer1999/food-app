@@ -1,95 +1,91 @@
 import React, { useEffect, useState } from "react";
 // import Navbar from '../Navbar/Navbar'
 import Navbar from '../Navbar/Nav'
+import URL from '../../baseUrl/BaseUrl'
 import axios from 'axios'
 import { useHistory } from "react-router-dom"
 import { useGlobalState, useGlobalStateUpdate } from '../../context/GlobalContext'
 function AdminDashboard() {
     let [orderData, setOrderData] = useState([])
-    const globalStateUpdate = useGlobalStateUpdate()
-    let history = useHistory()
-    function logout() {
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/logout',
-            withCredentials: true
-        }).then((response) => {
-            console.log(response)
-            globalStateUpdate(prev => ({
-                ...prev,
-                loginStatus: false,
-                role: null
-            }))
-            history.push("/login")
-
-        }, (error) => {
-            console.log(error);
-        });
-    }
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://localhost:5000/getOrders',
+            url: URL+'/getOrders',
             withCredentials: true
         }).then((response) => {
-            console.log(response.data.data)
             setOrderData(response.data.data)
         }).catch((err) => {
             console.log(err)
         })
     }, [])
-    console.log("Order data", orderData)
+
+    function updateStatus(id) {
+        axios({
+            method: 'post',
+            url:  URL+'/updateStatus',
+            data: {
+                id: id,
+                status: "Order confirmed"
+            },
+            withCredentials: true
+        }).then((response) => {
+            alert(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
     return (
         <div>
-            <Navbar logout={logout} />
-            <div className='bg-primary py-2'>
-                <div className="container">
-                    <h2 className="mr-4 text-white">Welcome admin</h2>
-                </div>
-            </div>
             <div className="container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">Phone</th>
-                            <th scope="col">Products Name</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
+                <h1 className='text-center mt-3 mb-3'>Customers Orders</h1>
+                <div className='row justify-content-center'>
                     {
-                        orderData.map((value, index) => {
+                        orderData.map((v, i) => {
                             return (
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{value.name}</td>
-                                        <td>{value.address}</td>
-                                        <td>{value.phone}</td>
-                                        <td>
-                                            <div className="dropdown">
-                                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    Orders
-                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                        {
-                                                            value.orders.map((v, i) => {
-                                                                return <a className="dropdown-item" href="#">{v.name} {v.qty}</a>
-                                                            })
-                                                        }
+                                <div className='col-md-5  mr-1 mt-4 py-3 px-3' style={{ boxShadow: "0 0 10px grey" }}>
+                                    <div>
+                                        <span>Name:</span>
+                                        <span className='float-right'>{v.name}</span>
+                                    </div>
+                                    <div>
+                                        <span>Address:</span>
+                                        <span className='float-right'>{v.address}</span>
+                                    </div>
+                                    <div>
+                                        <span>Phone:</span>
+                                        <span className='float-right'>{v.phone}</span>
+                                    </div><hr />
+                                    {
+                                        v.orders.map((v, i) => {
+                                            return (
+                                                <div>
+                                                    <div className='row '>
+                                                        <div className='col-md-6'>{v.name}</div>
+                                                        <div className='col-md-6 text-right'>{v.qty} Kg * {v.price} PKR</div>
                                                     </div>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                    <hr />
+                                    <div>
+                                        <span>Total Amount</span>
+                                        <span className='float-right'>{v.total} PKR</span>
+                                    </div>
+                                    <div>
+                                        <span className='float-right mt-2'>
+                                            <button onClick={() => {
+                                                updateStatus(v._id)
+                                            }} >Confirm Order</button>
+                                        </span>
+                                    </div>
+                                </div>
                             )
                         })
                     }
-                </table>
+                </div>
             </div>
-        </div>
+        </div >
     )
 }
 

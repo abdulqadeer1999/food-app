@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from "react";
-import Basket from './cart/Basket';
-// import products from './data';
-import products from '../cart/cart/Basket'
-import Navbar from '../../Navbar/Nav'
-// import BaseUrl from '../../baseUrl/BaseUrl'
-import BaseUrl from '../../../baseUrl/BaseUrl'
+import Basket from './cart/Basket'
+import URL from '../../baseUrl/BaseUrl'
 import axios from 'axios'
-import { useHistory } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../../context/GlobalContext'
+// import { useGlobalState, useGlobalStateUpdate } from '../../context/globalContext'
+import {useGlobalState,useGlobalStateUpdate} from '../../context/GlobalContext'
+
 
 function Dashboard() {
-    const globalState = useGlobalState()
-    const globalStateUpdate = useGlobalStateUpdate()
-    let history = useHistory()
+
     const [hideCart, setHideCart] = useState(true)
     const [products, setProducts] = useState([])
     const [cartItems, setCartItems] = useState([]);
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://localhost:5000/getProducts',
+            url: URL + '/getProducts',
             withCredentials: true
         }).then((response) => {
-            // console.log(response.data.data)
             setProducts(response.data.data)
         }).catch((err) => {
             console.log(err)
@@ -31,8 +25,6 @@ function Dashboard() {
     ///////////////////////////////
     console.log(products)
     const onAdd = (product) => {
-        console.log(cartItems)
-
         const exist = cartItems.find((x) => x._id === product._id);
         if (exist) {
             setCartItems(
@@ -61,29 +53,16 @@ function Dashboard() {
     };
     ///////////////////////////////
 
-    function logout() {
-        axios({
-            method: 'post',
-            url: 'http://localhost:5000/logout',
-            withCredentials: true
-        }).then((response) => {
-            console.log(response)
-            globalStateUpdate(prev => ({
-                ...prev,
-                loginStatus: false,
-                role: null
-            }))
-            history.push("/login")
-        }, (error) => {
-            console.log(error);
-        });
-    }
     return (
         <div>
-            <Navbar logout={logout} setCart={setHideCart} cartItemsLength={cartItems.length} />
-            <div className='bg-primary py-2'>
+            <div className='bg-primary pt-3 pb-5 sticky-top'>
                 <div className="container">
-                    <h2 className="mr-4 text-white">Welcome {globalState.user.name} </h2>
+                    <div className="col-md-12">
+                        <a className="btn btn-light float-right"
+                            onClick={() => setHideCart(prev => !prev)} >
+                            <i class="fas fa-cart-plus " /><span className="ml-1">{cartItems.length}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div className="row1">

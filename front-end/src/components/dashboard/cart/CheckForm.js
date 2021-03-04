@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from "axios"
-import {useGlobalState,useGlobalStateUpdate} from '../../../../context/GlobalContext'
-
-import Navbar from '../../../Navbar/Nav'
+import {useGlobalState,useGlobalStateUpdate} from '../../../context/GlobalContext'
+import URL from '../../../baseUrl/BaseUrl'
 export default function CheckoutFrom() {
     const globalState = useGlobalState()
+    const [msg,setMsg] = useState('')
     globalState.cartData && globalState.cartData.cartItems.map(value => {
-        delete value.price
-        delete value._id
         delete value.image
         delete value.description
         delete value.stock
@@ -16,7 +14,7 @@ export default function CheckoutFrom() {
         e.preventDefault()
         axios({
             method: 'post',
-            url: "http://localhost:5000/order",
+            url: URL+"/order",
             data: {
                 name: document.getElementById('name').value,
                 phone: document.getElementById('phone').value,
@@ -27,7 +25,7 @@ export default function CheckoutFrom() {
             withCredentials: true
         }).then((response) => {
             if (response.data.status === 200) {
-                console.log(response.data.message)
+                setMsg(response.data.message)
             }
             else {
                 console.log(response.data.message)
@@ -38,12 +36,6 @@ export default function CheckoutFrom() {
     }
     return (
         <div>
-            <Navbar />
-            <div className='bg-primary py-2'>
-                <div className="container">
-                    <h2 className="mr-4 text-white">Welcome {globalState.user.name} </h2>
-                </div>
-            </div>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-md-6 mt-5">
@@ -64,6 +56,9 @@ export default function CheckoutFrom() {
                             </div>
                             <button type="submit" className="btn btn-primary">Confirm Order</button>
                         </form>
+                        {msg ? <div class="alert alert-success mt-3" role="alert">
+                            {msg}
+                        </div> : null}
                     </div>
                 </div>
             </div>

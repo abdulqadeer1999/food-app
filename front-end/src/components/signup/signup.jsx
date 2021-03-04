@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import {
   useHistory
 } from "react-router-dom";
+import URL from '../../baseUrl/BaseUrl'
 // import { useGlobalState, useGlobalStateUpdate } from "./../../../context/GlobalContext"
 
 import axios from "axios";
@@ -33,22 +34,22 @@ function signup(event) {
  let email = document.getElementById("email").value
  let password = document.getElementById("password").value
 
- let newData = {
+ let myData = {
    name:name,
    email:email,
    password :password
  }
  axios({
   method: 'post',
-  url: url + '/login',
-  data: newData,
+  url: URL + '/signup',
+  data: myData,
   withCredentials: true
 }).then((response) => {
   if (response.data.status === 200) {
       setChange(false)
   }
   else {
-      history.push('/login');
+      history.push('/signup');
       setShow(response.data.message)
   }
 }).catch((error) => {

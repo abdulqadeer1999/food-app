@@ -2,12 +2,12 @@ import React from "react";
 import { HashRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Login from './../login/login'
 import Signup from './../signup/signup'
-import Dashboard from './../dashboard/cart/Dashboard'
+import Dashboard from './../dashboard/Dashboard'
 import ForgetPw from './../../forgetpass/ForgetPass1'
 import AdminDashboard from '../admin/adminDash'
-import Basket from '../dashboard/cart/cart/Basket'
-import CheckOutForm from '../dashboard/cart/cart/checkForm'
-import AddProducts from '../admin/Products'
+import Basket from '../dashboard/cart/Basket'
+import CheckOutForm from '../dashboard/cart/CheckForm'
+import AddProducts from  '../admin/Products'
 
 import { useGlobalState } from '../../context/GlobalContext'
 function RoutesConfig() {

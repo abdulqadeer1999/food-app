@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 // import Navbar from '../Navbar/Navbar'
 import Navbar from '../Navbar/Nav'
 import axios from 'axios'
-import Url from '../../baseUrl/BaseUrl'
+import URL from '../../baseUrl/BaseUrl'
 function AddProducts() {
     let [msg, setMsg] = useState()
 
@@ -22,13 +22,12 @@ function AddProducts() {
 
         axios({
             method: 'post',
-            url: Url + "/addProduct",
+            url: URL + "/addProduct",
             data: formData,
             headers: { 'Content-Type': 'multipart/form-data' },
             withCredentials: true
         })
             .then(response => {
-                console.log("response data=> ", response.data);
                 setMsg(response.data.message)
             })
             .catch(err => {
