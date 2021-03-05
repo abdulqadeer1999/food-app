@@ -14,10 +14,9 @@ router.post("/signup", (req, res, next) => {
     console.log(req.body)
     if (!req.body.name ||
         !req.body.email ||
-        !req.body.password ||
-        !req.body.phone) {
+        !req.body.password) {
 
-        res.status(403).send(`
+        res.status( ).send(`
             please send name, email, passwod, phone and gender in json body.
             e.g:
             {

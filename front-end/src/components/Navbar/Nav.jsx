@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import {useGlobalState} from '../../context/GlobalContext'
+import { useGlobalState } from '../../context/GlobalContext'
 function Navbar(props) {
     const globalState = useGlobalState()
     return (
@@ -23,11 +23,14 @@ function Navbar(props) {
                             </ul>
                             <a className="text-success btn btn-outline-success" onClick={props.logout}>Logout<span className="sr-only">(current)</span></a>
                         </> :
+                        null}
+
+                    {globalState.loginStatus === true ?
                         <>
                             <Link className="btn btn-outline-success " to="/login">Login<span className="sr-only">(current)</span></Link>
                             <Link className="btn btn-outline-success ml-4" to="/signup">Signup <span className="sr-only">(current)</span></Link>
                         </>
-                    }
+                        : null}
                 </div>
             </nav>
         </div>

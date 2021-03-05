@@ -41,7 +41,7 @@ const Login = () => {
         }))
       }
       else {
-        history.push("/login");
+        history.push("/dashboard");
         setShow(response.data.message)
     }
 }).catch((error) => {

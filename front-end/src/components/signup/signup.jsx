@@ -13,49 +13,53 @@ import axios from "axios";
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-function Signup()  {
-  
+function Signup() {
 
 
 
-    let url = 'http://localhost:5000'
-     let [change,setChange] = useState(true)
-     let [show , setShow] = useState()
 
-     let history = useHistory()
-     function handleClick() {
-       history.push("/login")
-     }
+  let [change, setChange] = useState(true)
+  let [show, setShow] = useState()
 
-function signup(event) {
- event.preventDefault()
-
- let name = document.getElementById("name").value
- let email = document.getElementById("email").value
- let password = document.getElementById("password").value
-
- let myData = {
-   name:name,
-   email:email,
-   password :password
- }
- axios({
-  method: 'post',
-  url: URL + '/signup',
-  data: myData,
-  withCredentials: true
-}).then((response) => {
-  if (response.data.status === 200) {
-      setChange(false)
+  let history = useHistory()
+  function handleClick() {
+    history.push("/login")
   }
-  else {
-      history.push('/signup');
-      setShow(response.data.message)
+
+  function signup(event) {
+    event.preventDefault()
+
+    let name = document.getElementById("name").value
+    let email = document.getElementById("email").value
+    let password = document.getElementById("password").value
+    // console.log(name)
+    // console.log(email)
+    // console.log(password)
+
+    let myData = {
+      name: name,
+      email: email,
+      password: password
+    }
+    // console.log("myData", myData)
+    axios({
+      method: 'post',
+      url: URL + '/signup',
+      data: myData,
+      withCredentials: true
+    }).then((response) => {
+      if (response.data.status === 200) {
+        setChange(false)
+        history.push('/login');
+      }
+      else {
+        setShow(response.data.message)
+
+      }
+    }).catch((error) => {
+      console.log(error);
+    });
   }
-}).catch((error) => {
-  console.log(error);
-});
-}
 
 
 
@@ -65,11 +69,11 @@ function signup(event) {
         <MDBCol md="6">
           <MDBCard>
             <MDBCardBody>
-              
-                <p className="h4 text-center py-4">Sign up</p>
-                <form onSubmit = {signup}>
+
+              <p className="h4 text-center py-4">Sign up</p>
+              <form onSubmit={signup}>
                 <div className="grey-text">
-            
+
                   <MDBInput
                     label="Your name"
                     icon="user"
@@ -98,21 +102,15 @@ function signup(event) {
                     validate
                     id="password"
                   />
-                  
+
                   <div className="text-center py-4 mt-3">
-                  <MDBBtn color="cyan" type="submit">
-                    Register
+                    <MDBBtn color="cyan" type="submit">
+                      Register
                   </MDBBtn>
+                  </div>
+
                 </div>
-               
-                </div>
-{/*                 
-                <div className="text-center py-4 mt-3">
-                  <MDBBtn color="cyan" type="submit">
-                    Register
-                  </MDBBtn>
-                </div> */}
-                
+
                 <div className="col">
                   <p>Already have an account?
                                             <span onClick={handleClick}
@@ -121,8 +119,8 @@ function signup(event) {
                      </span>
                   </p>
                 </div>
-              
-                </form>
+
+              </form>
             </MDBCardBody>
           </MDBCard>
         </MDBCol>
