@@ -5,62 +5,68 @@ import React, { useState } from "react";
 import {
   useHistory
 } from "react-router-dom";
-import URL from '../../baseUrl/BaseUrl'
-// import { useGlobalState, useGlobalStateUpdate } from "./../../../context/GlobalContext"
+import { BaseURL } from '../baseUrl/BaseUrl'
+import { useGlobalState, useGlobalStateUpdate } from "../../context/GlobalContext"
 
 import axios from "axios";
 
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-function Signup() {
+function SignUp() {
 
-
-
-
-  let [change, setChange] = useState(true)
-  let [show, setShow] = useState()
-
+  const setGlobalState = UseGlobalStateUpdate()
+  const globalState = UseGlobalState();
   let history = useHistory()
-  function handleClick() {
-    history.push("/login")
-  }
+  const classes = useStyles();
 
   function signup(event) {
-    event.preventDefault()
+      event.preventDefault()
 
-    let name = document.getElementById("name").value
-    let email = document.getElementById("email").value
-    let password = document.getElementById("password").value
-    // console.log(name)
-    // console.log(email)
-    // console.log(password)
+      console.log('clicked')
+      var userName = document.getElementById('name').value
+      var userEmail = document.getElementById('email').value.toLowerCase()
+      var userPhone = document.getElementById('phone').value
+      var userPassword = document.getElementById('password').value
 
-    let myData = {
-      name: name,
-      email: email,
-      password: password
-    }
-    // console.log("myData", myData)
-    axios({
-      method: 'post',
-      url: URL + '/signup',
-      data: myData,
-      withCredentials: true
-    }).then((response) => {
-      if (response.data.status === 200) {
-        setChange(false)
-        history.push('/login');
+      // console.log(userEmail)
+      var userData = {
+          userName: userName,
+          userEmail: userEmail,
+          userPhone: userPhone,
+          userPassword: userPassword
       }
-      else {
-        setShow(response.data.message)
+      console.log(userData)
+      axios({
+          method: 'post',
+          url: BaseURL + '/signup',
+          data: userData,
+          withCredentials: true
 
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+      })
+          .then(function (response) {
+              console.log(response);
+              if (response.data.status === 200) {
+                  alert(response.data.message)
+                  console.log(response.data)
+                  history.push('/login')
+              } else {
+                  alert(response.data.message)
+                  console.log(response.data)
+              }
+          })
+          .catch(function (error) {
+              alert(error)
+
+          });
+
+      document.getElementById("name").value = ""
+      document.getElementById("email").value = ""
+      document.getElementById("phone").value = ""
+      document.getElementById("password").value = ""
+
+      return false;
   }
-
 
 
   return (
@@ -129,4 +135,4 @@ function Signup() {
   );
 };
 
-export default Signup;
+export default SignUp;

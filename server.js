@@ -1,21 +1,106 @@
-var express = require("express");
+var express = require('express');
+var cors = require('cors');
+var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var path = require("path");
+var jwt = require('jsonwebtoken');
 var cookieParser = require('cookie-parser');
-var cors = require("cors");
-var morgan = require("morgan");
-var { foodUserModel, foodOrderModel, foodOrderModel } = require('./dbrepo/models')
-var path = require("path")
-var SERVER_SECRET = process.env.SECRET || "1234";
-var jwt = require('jsonwebtoken')
-var app = express()
-var authRoutes = require('./routes/auth')
-const admin = require("firebase-admin");
+const fs = require('fs')
 const multer = require('multer')
+const admin = require("firebase-admin");
+
+var { userModle, shopCartModel, sweetOrdersModel } = require("./dbrepo/models");
+var authRoutes = require("./routes/auth")
+console.log(userModle, shopCartModel, sweetOrdersModel)
+
+var { SERVER_SECRET } = require("./core/index");
+
+const PORT = process.env.PORT || 5000;
 
 
+var app = express()
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
+app.use(morgan('dev'))
+app.use(bodyParser.json())
+app.use(cookieParser())
+app.use("/", express.static(path.resolve(path.join(__dirname, "public"))));
+app.use('/', authRoutes)
+
+app.use(function (req, res, next) {
+    console.log('cookie', req.cookies)
+
+    if (!req.cookies.jToken) {
+        res.status(401).send("include http-only credentials with every request")
+        return;
+    }
+    console.log("Asign value of token" , req.cookies.jToken)
+
+    jwt.verify(req.cookies.jToken, SERVER_SECRET, function (err, decodedData) {
+        console.log("decodedData .................>>>>>>>>>>" , decodedData)
+        if (!err) {
+            const issueDate = decodedData.iat * 1000
+            const nowDate = new Date().getTime()
+            const diff = nowDate - issueDate
+
+            if (diff > 30000) {
+                res.status(401).send('Token Expired')
+
+            } else {
+                var token = jwt.sign({
+                    id: decodedData.id,
+                    name: decodedData.name,
+                    email: decodedData.email,
+                    role: decodedData.role
+                }, SERVER_SECRET)
+                res.cookie('jToken', token, {
+                    maxAge: 86_400_000,
+                    httpOnly: true
+                })
+                req.body.jToken = decodedData
+                req.headers.jToken = decodedData
+                next()
+            }
+        } else {
+            res.status(401).send('invalid Token')
+        }
+
+    });
+
+})
+
+////// Get profile and user data in user interface
+////// Get profile and user data in user interface
+////// Get profile and user data in user interface
+
+app.get('/profile', (req, res, next) => {
+
+    console.log(req.body)
 
 
+    userModle.findById(req.body.jToken.id, "name email phone role gender cratedOn",
+        function (err, data) {
+            console.log(data)
+            if (!err) {
+                res.send({
+                    profile: data
+                })
+            } else {
+                res.status(404).send({
+                    message: "server err"
+                })
+            }
 
+        })
+
+})
+
+//////Cart Upload Api
+//////Cart Upload Api
+//////Cart Upload Api
+//////Cart Upload Api
 
 const storage = multer.diskStorage({ // https://www.npmjs.com/package/multer#diskstorage
     destination: './uploads/',
@@ -49,123 +134,62 @@ const bucket = admin.storage().bucket("gs://auth-production-89fa8.appspot.com");
 
 
 
-app.use(bodyParser.json());
-app.use(cookieParser());
+//==============================================
 
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true
-}));
-app.use(morgan('dev'));
-app.use("/", express.static(path.resolve(path.join(__dirname, "../front-end/build"))));
+app.post("/uploadcart", upload.any(), (req, res, next) => {
 
-app.get('/', (req, res, next) => {
-    res.send("running")
-
-})
-
-app.use('/', authRoutes);
-app.use(function (req, res, next) {
-    console.log(req.cookies.jToken)
-    if (!req.cookies.jToken) {
-        res.status(401).send("include http-only credentials with every request")
-        return;
-    }
-    jwt.verify(req.cookies.jToken, SERVER_SECRET, function (err, decodedData) {
-        if (!err) {
-
-            const issueDate = decodedData.iat * 1000;
-            const nowDate = new Date().getTime();
-            const diff = nowDate - issueDate;
-
-            if (diff > 300000) {
-                res.status(401).send("token expired")
-            } else {
-                var token = jwt.sign({
-                    id: decodedData.id,
-                    name: decodedData.name,
-                    email: decodedData.email,
-                    role: decodedData.role
-                }, SERVER_SECRET)
-                res.cookie('jToken', token, {
-                    maxAge: 86400000,
-                    httpOnly: true
-                });
-                req.body.jToken = decodedData
-                req.headers.jToken = decodedData
-                next();
-            }
-        } else {
-            res.status(401).send("invalid token")
-        }
-    });
-})
-
- app.get("/profile", (req, res, next) => {
-
-    console.log(req.body)
-
-    foodUserModel.findById(req.body.jToken.id, 'name email phone role createdOn',
-         function (err, doc) {
-             console.log("doc", doc)
-            if (!err) {
-                res.send({
-                    status: 200,
-                    profile: doc
-              })
-
-             } else {
-                 res.status(500).send({
-                     message: "server error"
-                 })
-             }
-         })
- });
-
-   
-app.post("/addProduct", upload.any(), (req, res, next) => {
-
-    console.log("req.body: ", req.body);
     bucket.upload(
         req.files[0].path,
+
         function (err, file, apiResponse) {
             if (!err) {
+                console.log("api resp: ", apiResponse);
+
                 file.getSignedUrl({
                     action: 'read',
                     expires: '03-09-2491'
                 }).then((urlData, err) => {
+              
                     if (!err) {
-                        console.log("public downloadable url: ", urlData[0])
-                        foodUserModel.findById(req.headers.jToken.id, 'email role', (err,user)=>{
-                            console.log("user =======>", user.email)
-                            if (!err) {
-                                foodProductModel.create({
-                                    "name": req.body.productName,
-                                    "price": req.body.price,
-                                   "stock": req.body.stock,
-                                   "image": urlData[0],
-                                   "description": req.body.description
-                                }).then((data) => {
-                                    console.log(data)
-                                    res.send({
-                                        status: 200,
-                                        message: "Product add successfully",
-                                        data: data
-                                    })
+                        // console.log("public downloadable url: ", urlData[0]) // this is public downloadable url 
+                        console.log(req.body.email)
+                        console.log( "headerskdflasfjks ka data  ===================>>>>> " ,req.headers.jToken.id)
+                        console.log( "headerskdflasfjks request headers  ===================>>>>> " ,req.headers)
+                        userModle.findById(req.headers.jToken.id, 'email role', (err, users) => {
+                            console.log("Adminperson ====> ", users.email)
 
-                                }).catch(() => {
-                                    console.log(err);
-                                    res.status(500).send({
-                                        message: "user create error, " + err
-                                    })
+                            if (!err) {
+                                shopCartModel.create({
+                                    "title": req.body.title,
+                                    "price": req.body.price,
+                                    "availability": req.body.availability,
+                                    "cartimage": urlData[0],
+                                    "description": req.body.description
                                 })
+                                    .then((data) => {
+                                        console.log(data)
+                                        res.send({
+                                            status: 200,
+                                            message: "Product add successfully",
+                                            data: data
+                                        })
+
+                                    }).catch(() => {
+                                        console.log(err);
+                                        res.status(500).send({
+                                            message: "Not added, " + err
+                                        })
+                                    })
                             }
-                            else{
-                                res.send("err")
+                            else {
+                                res.send({
+                                    message: "error"
+                                });
                             }
                         })
                         try {
                             fs.unlinkSync(req.files[0].path)
+                            //file removed
                         } catch (err) {
                             console.error(err)
                         }
@@ -177,6 +201,35 @@ app.post("/addProduct", upload.any(), (req, res, next) => {
             }
         });
 })
+
+
+////// Get Products frrom Database in user Interfase
+////// Get Products frrom Database in user Interfase
+////// Get Products frrom Database in user Interfase
+////// Get Products frrom Database in user Interfase
+////// Get Products frrom Database in user Interfase
+
+
+app.get('/getProducts', (req, res, next) => {
+    shopCartModel.find({}, (err, data) => {
+        if (!err) {
+            res.send({
+                data: data
+            })
+        }
+        else {
+            res.send(err)
+        }
+    })
+})
+
+
+/////// Save order in Database
+/////// Save order in Database
+/////// Save order in Database
+/////// Save order in Database
+/////// Save order in Database
+
 
 app.post("/order", (req, res, next) => {
     console.log("fsfsf", req.body)
@@ -192,18 +245,18 @@ app.post("/order", (req, res, next) => {
         return;
     }
 
-    foodUserModel.findOne({ email: req.body.jToken.email }, (err, user) => {
+    userModle.findOne({ email: req.body.jToken.email }, (err, user) => {
         console.log("afafa", user)
         if (!err) {
-            foodOrderModel.create({
+            sweetOrdersModel.create({
                 name: req.body.name,
                 phone: req.body.phone,
                 address: req.body.address,
-                total: req.body.total,
-                orders: req.body.orders
+                email: user.email,
+                orders: req.body.orders,
+                total: req.body.total
             }).then((data) => {
-                res.send({
-                    status: 200,
+                res.status(200).send({
                     message: "Order have been submitted",
                     data: data
                 })
@@ -219,20 +272,17 @@ app.post("/order", (req, res, next) => {
     })
 })
 
-app.get('/getOrders', (req, res, next) => {
-    foodOrderModel.find({}, (err, data) => {
-        if (!err) {
-            res.send({
-                data: data
-            })
-        }
-        else {
-            res.send(err)
-        }
-    })
-})
-app.get('/getProducts', (req, res, next) => {
-    foodProductModel.find({}, (err, data) => {
+
+/////// Get all orders in Admin panel 
+/////// Get all orders in Admin panel 
+/////// Get all orders in Admin panel 
+/////// Get all orders in Admin panel 
+/////// Get all orders in Admin panel 
+
+
+app.get('/getorders', (req, res, next) => {
+    sweetOrdersModel.find({}, (err, data) => {
+        console.log("dlfsdjlaskdfj data datat tatdta + ", data)
         if (!err) {
             res.send({
                 data: data
@@ -244,8 +294,13 @@ app.get('/getProducts', (req, res, next) => {
     })
 })
 
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-    console.log("server is running on: ", PORT);
-})
+    console.log("surver is running on : ", PORT)
+});
+
+
+
+
+
+
 

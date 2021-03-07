@@ -1,12 +1,11 @@
-
 import React, { useState } from 'react';
-import Products from '../card/Products';
-import Cart from '../card/Cart';
+import CartPost from './CartPost';
+import Cart from './Cart';
 
 const PAGE_PRODUCTS = 'products';
 const PAGE_CART = 'cart';
 
-function Dashboard() {
+function CartData() {
   const [cart, setCart] = useState([]);
   const [page, setPage] = useState(PAGE_PRODUCTS);
 
@@ -22,7 +21,7 @@ function Dashboard() {
   };
 
   return (
-    <div className="app">
+    <div className="App">
       <header>
         <button onClick={() => navigateTo(PAGE_CART)}>
           Go to Cart ({getCartTotal()})
@@ -33,7 +32,7 @@ function Dashboard() {
         </button>
       </header>
       {page === PAGE_PRODUCTS && (
-        <Products cart={cart} setCart={setCart} />
+        <CartPost cart={cart} setCart={setCart} />
       )}
       {page === PAGE_CART && (
         <Cart cart={cart} setCart={setCart} />
@@ -42,4 +41,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default CartData;

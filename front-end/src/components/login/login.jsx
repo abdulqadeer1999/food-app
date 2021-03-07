@@ -7,57 +7,74 @@ import axios from 'axios'
 import {
   useHistory
 } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../context/GlobalContext';
-import URL from '../../baseUrl/BaseUrl'
+import { useGlobalState, useGlobalStateUpdate } from "../../context/GlobalContext"
+import { BaseURL } from '../Url/BaseURL'
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-const Login = () => {
+function Login() {
+
+  const golobalState = UseGlobalState()
+  const globalStateUpdate = UseGlobalStateUpdate()
+  console.log("lsdflafljl===============>>>>>>>>>>>>>>>>>... ", golobalState)
+  console.log("lsdflafljl===============>>>>>>>>>>>>>>>>>... ", globalStateUpdate)
 
 
-  let url = "http://localhost:5000"
-  let [show, setShow] = useState()
-  let history = useHistory()
-  const globalState = useGlobalState()
-  const setGlobalState = useGlobalStateUpdate()
 
-  function login(e) {
-    e.preventDefault();
-    axios({
-      method: "post",
-      url: URL + "/login",
-      data: {
-        email: document.getElementById('email1').value,
-        password: document.getElementById("password1").value,
-      },
-      withCredentials: true
-    }).then((response) => {
-      if (response.data.status === 200) {
-        setGlobalState(prev => ({
-          ...prev,
-          loginStatus: true,
-          user: response.data.user,
-          roll: response.data.user.roll
-        }))
-      }
-      else {
-        history.push("/dashboard");
-        setShow(response.data.message)
-    }
-}).catch((error) => {
-    console.log(error);
-});
-}
-function goToForget() {
-history.push("/forgetpw");
-}
+  const history = useHistory();
+  const classes = useStyles();
+  // const [alertMessage, setAlertMessage] = useState("")
+  function Login(event) {
+      event.preventDefault()
+
+      var loginEmail = document.getElementById('email1').value
+      var loginPassword = document.getElementById('password1').value
+
+      axios({
+          method: 'post',
+          url: BaseURL + '/login',
+          data: {
+              email: loginEmail,
+              password: loginPassword
+          },
+          withCredentials: true
+      })
+          .then(function (response) {
+              if (response.status === 200) {
+                  // alert(response.status)
+                  console.log("loginRequestUser ====>", response.data.loginRequestUser.role)
+                  globalStateUpdate(prev => ({
+                      ...prev,
+
+                      loginStatus: true,
+                      user: response.data.loginRequestUser,
+                      role: response.data.loginRequestUser.role
+                  }))
+                  alert(response.data.message)
+                  if (response.data.loginRequestUser.role === "user") {
+                      history.push('/')
+                  } else if (response.data.loginRequestUser.role === "admin") {
+                      history.push('/admin-home')
+                  }
+              } else if (response.status === 404) {
+                  alert(response.data.message)
+              }
+          })
+          .catch(function (error) {
+              if (error.status === 403) {
+                  alert(error.message)
+              }
+          });
+      return false;
+
+  }
   return (
     <MDBContainer>
       <MDBRow>
         <MDBCol md="6">
           <MDBCard>
             <MDBCardBody>
-              <form  onSubmit={login}>
+              <form  onSubmit={Login}>
                 <p className="h4 text-center py-4">Sign In</p>
                 <div className="grey-text">
                   
