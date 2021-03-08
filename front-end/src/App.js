@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import './App.css';
-import Route from "./components/Navbar/Routers";
+import Navigation from "./components/Navigation/Navigation";
 
 // import {GlobalStateProvider} from './context/globalContext'
 import {GlobalStateProvider} from './context/GlobalContext'

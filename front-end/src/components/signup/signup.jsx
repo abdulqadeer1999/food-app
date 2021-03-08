@@ -6,9 +6,10 @@ import {
   useHistory
 } from "react-router-dom";
 import { BaseURL } from '../baseUrl/BaseUrl'
-import { useGlobalState, useGlobalStateUpdate } from "../../context/GlobalContext"
+import { UseGlobalState, UseGlobalStateUpdate } from "../../context/GlobalContext"
 
 import axios from "axios";
+import {BaseURL} from '../components/baseUrl/BaseUrl'
 
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';

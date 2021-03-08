@@ -1,7 +1,8 @@
 
 
 import React, { useEffect, useState, useContext } from 'react';
-import { BaseURL } from '../Components/Url/BaseURL'
+// import { BaseURL } from '../Components/Url/BaseURL'
+import {BaseURL} from '../components/baseUrl/BaseUrl'
 import axios from 'axios'
 
 const GlobalStateContext = React.createContext()

@@ -2,14 +2,14 @@
 
 
 import React from 'react'
-import Login from '../login/Login'
-import Signup from '../signup/SignUp'
+import Login from '../login/login'
+import Signup from '../login/login'
 import Dashboard from '../dashboard/Dashboard'
-import Home from "../home/Home";
-import AddShopCard from '../admin/AddShopCard'
+// import Home from "../home/Home";
+import AddShopCard from '../admin/AddShop'
 import AppRoute from '../routes/AppRouting'
-import Allorders from '../admin/Allorders'
-import { UseGlobalState, UseGlobalStateUpdate } from "../../context/context"
+import Allorders from '../admin/AllOrders'
+import { UseGlobalState, UseGlobalStateUpdate } from "../../context/GlobalContext"
 
 
 import {

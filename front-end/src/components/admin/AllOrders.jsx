@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { BaseURL } from '../Url/BaseURL'
+import {BaseURL} from '../components/baseUrl/BaseUrl'
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';

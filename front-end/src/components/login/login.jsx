@@ -7,9 +7,8 @@ import axios from 'axios'
 import {
   useHistory
 } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from "../../context/GlobalContext"
-import { BaseURL } from '../Url/BaseURL'
-
+import { BaseURL } from '../baseUrl/BaseUrl'
+import { UseGlobalState, UseGlobalStateUpdate } from '../../context/GlobalContext'
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
 function Login() {
