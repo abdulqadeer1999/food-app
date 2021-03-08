@@ -1,41 +1,49 @@
-var express = require('express')
-var bcrypt = require("bcrypt-inzi")
+var express = require('express');
+var bcrypt = require("bcrypt-inzi");
 var jwt = require('jsonwebtoken');
-var { foodUserModel, foodOtpModel, } = require('../dbrepo/models')
-var router = express.Router();
-var SERVER_SECRET = process.env.SECRET || "1234";
 var postmark = require("postmark");
-var emailApi = process.env.EMAIL_API || "9cc2c15c-4f23-43b7-bd80-2bf7e466c83f"; 
-var client = new postmark.ServerClient(emailApi);
-
+var { SERVER_SECRET } = require("../core/index");
 var client = new postmark.Client("9cc2c15c-4f23-43b7-bd80-2bf7e466c83f");
 
+<<<<<<< HEAD
 router.post("/signup", (req, res, next) => {
     console.log(req.body)
     if (!req.body.name ||
         !req.body.email ||
         !req.body.password )
          {
+=======
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
 
+var { userModle, otpModel } = require("../dbrepo/models");
+console.log("userModle: ", userModle)
+var api = express.Router()
+
+
+api.post('/signup', (req, res, next) => {
+    console.log(req.body.userName)
+    console.log(req.body.userEmail)
+    console.log(req.body.userPhone)
+    console.log(req.body.userPassword)
+    if (!req.body.userName
+        || !req.body.userEmail
+        || !req.body.userPhone
+        || !req.body.userPassword) {
         res.status(403).send(`
-            please send name, email, passwod, phone and gender in json body.
-            e.g:
-            {
-                "name": "qadeer",
-                "email": "qadeer@gmail.com",
-                "password": "123",
-                "phone": "031234567",
-                "gender": "Male"
-            }`)
-        return;
-    }
+        please send complete information
+        e.g:
+        {
+            "name": "xyz",
+            "email": "xyz@gmail.com",
+            "password": "1234",
+            "phone": "01312314",
+        }`);
+        return
+    };
 
-    foodUserModel.findOne({ email: req.body.email },
-        function (err, doc) {
-            if (!err && !doc) {
 
-                bcrypt.stringToHash(req.body.password).then(function (hash) {
 
+<<<<<<< HEAD
                     var newUser = new foodUserModel({
                         "name": req.body.name,
                         "email": req.body.email,
@@ -56,77 +64,208 @@ router.post("/signup", (req, res, next) => {
                         }
                     });
                 })
+=======
+    userModle.findOne({ email: req.body.userEmail }, function (err, data) {
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
 
-            } else if (err) {
-                res.status(500).send({
-                    message: "db error"
-                })
-            } else {
-                res.send({
-                    message: "user already exist"
-                })
-            }
-        })
 
-})
-router.post("/login", (req, res, next) => {
 
-    if (!req.body.email || !req.body.password) {
+        if (err) {
+            console.log(err)
+        } else if (!data) {
+
+            bcrypt.stringToHash(req.body.userPassword).then(function (HashPassword) {
+                var newUaser = new userModle({
+                    "name": req.body.userName,
+                    "email": req.body.userEmail,
+                    "password": HashPassword,
+                    "phone": req.body.userPhone,
+                });
+
+                newUaser.save((err, data) => {
+                    if (!err) {
+                        res.status(200).send({
+                            message: "User created"
+                        })
+                    } else {
+                        console.log(err)
+                        res.status(403).send({
+                            message: "user already exist"
+                        })
+                    };
+
+                });
+
+            })
+
+
+        } else if (err){
+            res.status(500).send({
+                message:"db error"
+            })
+        } else {
+
+            res.status(403).send({
+                message: "User already exist"
+            })
+        }
+    })
+
+
+});
+
+api.post("/login", (req, res, next) => {
+    var userEmail = req.body.email;
+    var userPassword = req.body.password;
+    console.log(userEmail)
+    console.log(userPassword)
+
+    if (!userEmail || !userPassword) {
 
         res.status(403).send(`
             please send email and passwod in json body.
             e.g:
             {
-                "email": "qadeer@gmail.com",
-                "password": "123",
+                "email": "malikasinger@gmail.com",
+                "password": "abc",
             }`)
         return;
     }
 
-    foodUserModel.findOne({ email: req.body.email },
+    userModle.findOne({ email: userEmail },
+        function (err, loginRequestUser) {
+        console.log(loginRequestUser)
+
+            if (err) {
+                res.status(500).send({
+                    message: 'an errer occured'
+                })
+                console.log(err)
+            } else if (loginRequestUser) {
+
+                console.log(loginRequestUser)
+
+                bcrypt.varifyHash(userPassword, loginRequestUser.password).then(match => {
+
+                    if (match) {
+
+                        var token = jwt.sign({
+                            name: loginRequestUser.name,
+                            email: loginRequestUser.email,
+                            phone: loginRequestUser.phone,
+                            role: loginRequestUser.role,
+                            id: loginRequestUser.id,
+                            ip: req.connection.remoteAddress
+
+                        }, SERVER_SECRET);
+
+                        res.cookie('jToken', token, {
+                            maxAge: 86_400_000,
+                            httpOnly: true
+                        });
+
+                        res.status(200).send({
+                            message: "login success",
+<<<<<<< HEAD
+                            user: {
+                                name: user.name,
+                                email: user.email,
+                                gender: user.gender,
+=======
+
+                            loginRequestUser: {
+                                name: loginRequestUser.name,
+                                email: loginRequestUser.email,
+                                phone: loginRequestUser.phone,
+                                role: loginRequestUser.role
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
+                            }
+                        });
+
+                    } else {
+                        console.log('not matched')
+                        res.status(404).send({
+                            message: "Incorrect password"
+                        })
+                    }
+                }).catch(e => {
+                    console.log("errer : ", e)
+                })
+
+            } else {
+                res.send({
+                    message: "User not found",
+                    status: 403
+                })
+            }
+
+        })
+
+})
+
+api.post("/logout",(req, res, next) =>{
+
+    res.cookie('jToken', "", {
+        maxAge: 86_400_000,
+        httpOnly: true
+    });
+
+    res.status(200).send({
+        message: ("logout success")
+    });
+})
+
+api.post("/forget-password", (req, res, next) => {
+
+    console.log(req.body.forgetEmail)
+    if (!req.body.forgetEmail) {
+
+        res.status(403).send(`
+            please send email in json body.
+            e.g:
+            {
+                "forgetEmail": "malikasinger@gmail.com"
+            }`)
+        return;
+    }
+
+    userModle.findOne({ email: req.body.forgetEmail },
         function (err, user) {
             if (err) {
                 res.status(500).send({
                     message: "an error occured: " + JSON.stringify(err)
                 });
             } else if (user) {
-                req.body.userData = user
-                bcrypt.varifyHash(req.body.password, user.password).then(isMatched => {
-                    if (isMatched) {
-                        console.log("matched");
+                const otp = Math.floor(getRandomArbitrary(11111, 99999))
 
-                        var token =
-                            jwt.sign({
-                                id: user._id,
-                                name: user.name,
-                                email: user.email,
-                            }, SERVER_SECRET)
+                otpModel.create({
+                    email: req.body.forgetEmail,
+                    otpCode: otp
+                }).then((doc) => {
 
-                        res.cookie('jToken', token, {
-                            maxAge: 86400000,
-                            httpOnly: true
-                        });
+                    client.sendEmail({
+                        "From": "zubair_student@sysborg.com",
+                        "To": req.body.forgetEmail,
+                        "Subject": "Reset your password",
+                        "TextBody": `Here is your pasword reset code: ${otp}`
+                    }).then((status) => {
 
+                        console.log("status: ", status);
                         res.send({
                             status: 200,
-                            message: "login success",
-                            user: {
-                                name: user.name,
-                                email: user.email,
-                                gender: user.gender,
-                            }
-                        });
-                        
-
-                    } else {
-                        console.log("not matched");
-                        res.send({
-                            message: "Incorrect password or email"
+                            message: "email sent with otp"
                         })
-                    }
-                }).catch(e => {
-                    console.log("error: ", e)
+
+                    })
+
+                }).catch((err) => {
+                    console.log("error in creating otp: ", err);
+                    res.send({
+ 
+                        message:"unexpected error "
+                    })
                 })
+
 
             } else {
                 res.send({
@@ -135,110 +274,89 @@ router.post("/login", (req, res, next) => {
             }
         });
 })
-router.post("/logout", (req, res, next) => {
-    res.clearCookie('jToken');
-    res.cookie('jToken', "", {
-        maxAge: 86400000,
-        httpOnly: true
-    });
-    res.send("logout success");
-})
 
-router.post('/forget-password', (req, res, next) => {
-    if (!req.body.email) {
-        res.status(403).send({
-            message: "please pprovide email"
-        })
-    }
-    foodUserModel.findOne({ email: req.body.email }, (err, user) => {
-        if (err) {
-            res.status(500).send({
-                message: "Something went wrong"
-            })
-        } else if (user) {
-            const otp = Math.floor(generetOtp(111111, 999999))
-            foodOtpModel.create({
-                email: req.body.email,
-                otp: otp
-            }).then((data) => {
-                client.sendEmail({
-                    "From": "asif_student@sysborg.com",
-                    "To": req.body.email,
-                    "Subject": "Reset Your Password",
-                    "Textbody": `Here is your Reset password code : ${otp}`
-                }, (err, status) => {
-                    if (status) {
-                        res.send({
-                            status: 200,
-                            message: "Email send successfully please enter otp code"
-                        })
-                    } else {
-                        res.send({
-                            message: "An unexpected error occured"
-                        })
-                    }
-                })
-            })
-        } else {
-            res.send({
-                message: "User not found"
-            })
-        }
-    })
-})
-router.post('/forget-password-2', (req, res, next) => {
-    if (!req.body.newPassword && !req.body.otp) {
-        res.status(403).send({
-            message: "please pprovide email"
-        })
+api.post("/forget-password-step-2", (req, res, next) => {
+
+    console.log(req.body.otpCode)
+    console.log(req.body.newPassword)
+    console.log(req.body.emailVarification)
+
+    if (!req.body.emailVarification && !req.body.otpCode && !req.body.newPassword) {
+
+        res.status(403).send(`
+            please send emailVarification & otp in json body.
+            e.g:
+            {
+                "emailVarification": "malikasinger@gmail.com",
+                "newPassword": "xxxxxx",
+                "otp": "xxxxx" 
+            }`)
+        return;
     }
 
-    foodUserModel.findOne({ email: req.body.userData.email }, (err, user) => {
-        if (err) {
-            res.status(500).send({
-                message: "Something went wrong"
-            })
-        } else if (user) {
-            foodOtpModel.find({ email: req.body.userData.email }, (err, otpData) => {
-                if (err) {
-                    res.status(500).send({
-                        message: "Something went wrong"
-                    })
-                } else if (otpData) {
-                    console.log(otpData)
-                    otpData = otpData[otpData.length - 1]
-                    const nowDate = new Date().getTime();
-                    const otpIat = new Date(otpData.createdOn).getTime();
-                    const diff = nowDate - otpIat;
-                    if (otpData.otp == req.body.otp && diff < 300000) {
-                        otpData.remove();
-                        bcrypt.stringToHash(req.body.newPassword).then(function (hash) {
-                            user.update({ password: hash }, {}, function (err, data) {
+    userModle.findOne({ email: req.body.emailVarification },
+        function (err, user) {
+            console.log(err)
+            if (err) {
+                res.status(500).send({
+                    message: "an error occured: " + JSON.stringify(err)
+                });
+            } else if (user) {
+
+                otpModel.find({ email: req.body.emailVarification },
+                    function (err, otpData) {
+
+                        
+
+                        if (err) {
+                            res.send({
+                                message: "an error occured: " + JSON.stringify(err)
+                            });
+                        } else if (otpData) {
+                            otpData = otpData[otpData.length - 1]
+
+                            console.log("otpData: ", otpData);
+
+                            const now = new Date().getTime();
+                            const otpIat = new Date(otpData.createdOn).getTime();
+                            const diff = now - otpIat;
+
+                            console.log("diff: ", diff);
+
+                            if (otpData.otpCode === req.body.otpCode && diff < 300000) {
+
+                                bcrypt.stringToHash(req.body.newPassword).then(function (hash) {
+                                    user.update({ password: hash }, {}, function (err, data) {
+                                        res.send({
+                                            status:200,
+                                            message:"password updated"
+                                        });
+                                    })
+                                })
+
+                            } else {
                                 res.send({
-                                    status: 200,
-                                    message: "Password updated"
+                                    message: "incorrect otp"
                                 });
-                            })
-                        })
-                    } else {
-                        res.send({
-                            message: "incorrect otp"
-                        });
-                    }
-                } else {
-                    res.send({
-                        message: "incorrect otp"
-                    });
-                }
-            })
-        } else {
-            res.send({
-                message: "User Not Found"
-            })
-        }
-    })
+                            }
+                        } else {
+                            res.send({
+                                message: "incorrect otp"
+                            });
+                        }
+                    })
+
+            } else {
+                res.send({
+                    message: "user not found"
+                });
+            }
+        });
 })
-function generetOtp(min, max) {
+
+
+module.exports = api
+
+function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
-}
-module.exports = router;
+} 

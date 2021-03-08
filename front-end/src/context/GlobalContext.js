@@ -1,16 +1,27 @@
 
 
 import React, { useEffect, useState, useContext } from 'react';
+<<<<<<< HEAD
 import { BaseURL } from '../baseUrl/BaseUrl'
+=======
+// import { BaseURL } from '../Components/Url/BaseURL'
+import {BaseURL} from '../components/baseUrl/BaseUrl'
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
 import axios from 'axios'
 
 const GlobalStateContext = React.createContext()
 const GlobalStateUpdateContext = React.createContext()
 const UseGlobalState = () => useContext(GlobalStateContext)
 const UseGlobalStateUpdate = () => useContext(GlobalStateUpdateContext)
+<<<<<<< HEAD
 
 function GlobalStateProvider({ children }) {
 
+=======
+
+function GlobalStateProvider({ children }) {
+
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
     const [data, setData] = useState({
         user: null,
         darkTheme: false,
@@ -65,6 +76,7 @@ function GlobalStateProvider({ children }) {
             </GlobalStateUpdateContext.Provider>
         </GlobalStateContext.Provider>
 
+<<<<<<< HEAD
 
 
 
@@ -79,6 +91,8 @@ function GlobalStateProvider({ children }) {
 
 
 
+=======
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
     )
 }
 

@@ -7,13 +7,18 @@ import axios from 'axios'
 import {
   useHistory
 } from "react-router-dom"
+<<<<<<< HEAD
 import { UseGlobalState, UseGlobalStateUpdate } from '../../context/GlobalContext';
 
+=======
+import { BaseURL } from '../baseUrl/BaseUrl'
+import { UseGlobalState, UseGlobalStateUpdate } from '../../context/GlobalContext'
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
-const Login = () => {
+function Login() {
 
-
+<<<<<<< HEAD
   let url = "http://localhost:5000"
   let [show, setShow] = useState()
   let history = useHistory()
@@ -46,22 +51,69 @@ const Login = () => {
       console.log(error);
     });
   }
+=======
+  const golobalState = UseGlobalState()
+  const globalStateUpdate = UseGlobalStateUpdate()
+  console.log("lsdflafljl===============>>>>>>>>>>>>>>>>>... ", golobalState)
+  console.log("lsdflafljl===============>>>>>>>>>>>>>>>>>... ", globalStateUpdate)
 
-  function goToForget() {
-    history.push("/forgetpw");
-}
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
 
 
+  const history = useHistory();
+  const classes = useStyles();
+  // const [alertMessage, setAlertMessage] = useState("")
+  function Login(event) {
+      event.preventDefault()
 
+      var loginEmail = document.getElementById('email1').value
+      var loginPassword = document.getElementById('password1').value
 
+      axios({
+          method: 'post',
+          url: BaseURL + '/login',
+          data: {
+              email: loginEmail,
+              password: loginPassword
+          },
+          withCredentials: true
+      })
+          .then(function (response) {
+              if (response.status === 200) {
+                  // alert(response.status)
+                  console.log("loginRequestUser ====>", response.data.loginRequestUser.role)
+                  globalStateUpdate(prev => ({
+                      ...prev,
 
+                      loginStatus: true,
+                      user: response.data.loginRequestUser,
+                      role: response.data.loginRequestUser.role
+                  }))
+                  alert(response.data.message)
+                  if (response.data.loginRequestUser.role === "user") {
+                      history.push('/')
+                  } else if (response.data.loginRequestUser.role === "admin") {
+                      history.push('/admin-home')
+                  }
+              } else if (response.status === 404) {
+                  alert(response.data.message)
+              }
+          })
+          .catch(function (error) {
+              if (error.status === 403) {
+                  alert(error.message)
+              }
+          });
+      return false;
+
+  }
   return (
     <MDBContainer>
       <MDBRow>
         <MDBCol md="6">
           <MDBCard>
             <MDBCardBody>
-              <form  onSubmit={login}>
+              <form  onSubmit={Login}>
                 <p className="h4 text-center py-4">Sign In</p>
                 <div className="grey-text">
                   
@@ -75,6 +127,10 @@ const Login = () => {
                     success="right"
                     id="email1"
                   />
+<<<<<<< HEAD
+=======
+                  
+>>>>>>> b2c2665add4c871f4f646f9c2c9accc84ec03599
                   <MDBInput
                     label="Your password"
                     icon="lock"
