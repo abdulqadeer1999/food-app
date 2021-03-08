@@ -101,7 +101,7 @@ app.use(function (req, res, next) {
     });
 })
 
- app.get("/profile", (req, res, next) => {
+ app.get("/profile", (req, res, next) => { 
 
     console.log(req.body)
 

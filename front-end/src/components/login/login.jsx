@@ -7,7 +7,7 @@ import axios from 'axios'
 import {
   useHistory
 } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../context/GlobalContext';
+import { UseGlobalState, UseGlobalStateUpdate } from '../../context/GlobalContext';
 
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBBtn, MDBCard, MDBCardBody } from 'mdbreact';
 
@@ -17,8 +17,8 @@ const Login = () => {
   let url = "http://localhost:5000"
   let [show, setShow] = useState()
   let history = useHistory()
-  const globalState = useGlobalState()
-  const setGlobalState = useGlobalStateUpdate()
+  const globalState = UseGlobalState()
+  const setGlobalState = UseGlobalStateUpdate()
 
   function login(e) {
     e.preventDefault();
@@ -39,7 +39,7 @@ const Login = () => {
           roll: "user"
         }))
       } else {
-        history.push("/cart");
+        history.push("/dashboard");
         setShow(response.data.message)
       }
     }).catch((error) => {
@@ -64,15 +64,7 @@ const Login = () => {
               <form  onSubmit={login}>
                 <p className="h4 text-center py-4">Sign In</p>
                 <div className="grey-text">
-                  {/* <MDBInput
-                    label="Your name"
-                    icon="user"
-                    group
-                    type="text"
-                    validate
-                    error="wrong"
-                    success="right"
-                  /> */}
+                  
                   <MDBInput
                     label="Your email"
                     icon="envelope"
@@ -83,15 +75,6 @@ const Login = () => {
                     success="right"
                     id="email1"
                   />
-                  {/* <MDBInput
-                    label="Confirm your email"
-                    icon="exclamation-triangle"
-                    group
-                    type="text"
-                    validate
-                    error="wrong"
-                    success="right"
-                  /> */}
                   <MDBInput
                     label="Your password"
                     icon="lock"

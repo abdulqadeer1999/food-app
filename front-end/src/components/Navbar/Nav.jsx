@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from 'react-router-dom'
-import { useGlobalState} from '../../context/GlobalContext'
+import { UseGlobalState} from '../../context/GlobalContext'
 function Navbar(props) {
-    const globalState = useGlobalState()
+    const globalState = UseGlobalState()
     return (
         <div className='sticky-top'>
             <nav className="navbar  navbar-expand-lg navbar-light bg-light">

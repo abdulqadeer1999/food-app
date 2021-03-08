@@ -3,15 +3,14 @@ import Basket from './cart/Basket';
 // import products from './data';
 import products from '../cart/cart/Basket'
 import Navbar from '../../Navbar/Nav'
-// import BaseUrl from '../../baseUrl/BaseUrl'
 import BaseUrl from '../../../baseUrl/BaseUrl'
 import axios from 'axios'
 import { useHistory } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../../context/GlobalContext'
+import { UseGlobalState, UseGlobalStateUpdate } from '../../../context/GlobalContext'
 
 function Dashboard() {
-    const globalState = useGlobalState()
-    const globalStateUpdate = useGlobalStateUpdate()
+    const globalState = UseGlobalState()
+    const globalStateUpdate = UseGlobalStateUpdate()
     let history = useHistory()
     const [hideCart, setHideCart] = useState(true)
     const [products, setProducts] = useState([])
@@ -28,7 +27,7 @@ function Dashboard() {
             console.log(err)
         })
     }, [])
-    ///////////////////////////////
+
     console.log(products)
     const onAdd = (product) => {
         console.log(cartItems)
@@ -45,8 +44,8 @@ function Dashboard() {
             setCartItems([...cartItems, { ...product, qty: 1 }]);
         }
     };
-    ///////////////////////////////
-    ///////////////////////////////
+  
+
     const onRemove = (product) => {
         const exist = cartItems.find((x) => x._id === product._id);
         if (exist.qty === 1) {
@@ -59,7 +58,7 @@ function Dashboard() {
             );
         }
     };
-    ///////////////////////////////
+   
 
     function logout() {
         axios({

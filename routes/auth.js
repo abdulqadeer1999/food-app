@@ -14,8 +14,8 @@ router.post("/signup", (req, res, next) => {
     console.log(req.body)
     if (!req.body.name ||
         !req.body.email ||
-        !req.body.password ||
-        !req.body.phone) {
+        !req.body.password )
+         {
 
         res.status(403).send(`
             please send name, email, passwod, phone and gender in json body.
@@ -39,8 +39,8 @@ router.post("/signup", (req, res, next) => {
                     var newUser = new foodUserModel({
                         "name": req.body.name,
                         "email": req.body.email,
-                        "password": hash,
-                        "phone": req.body.phone,
+                        "password": req.body.hash,
+                        
                     })
                     newUser.save((err, data) => {
                         if (!err) {
@@ -113,7 +113,6 @@ router.post("/login", (req, res, next) => {
                             user: {
                                 name: user.name,
                                 email: user.email,
-                                phone: user.phone,
                                 gender: user.gender,
                             }
                         });

@@ -1,10 +1,10 @@
 import React from 'react'
 import axios from "axios"
-import {useGlobalState,useGlobalStateUpdate} from '../../../../context/GlobalContext'
+import {UseGlobalState,UseGlobalStateUpdate} from '../../../../context/GlobalContext'
 
 import Navbar from '../../../Navbar/Nav'
 export default function CheckoutFrom() {
-    const globalState = useGlobalState()
+    const globalState = UseGlobalState()
     globalState.cartData && globalState.cartData.cartItems.map(value => {
         delete value.price
         delete value._id

@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import '../Dashboard.css'
 import axios from 'axios'
 import {useHistory} from 'react-router-dom'
-import {useGlobalState,useGlobalStateUpdate} from '../../../../context/GlobalContext'
+import {UseGlobalState,UseGlobalStateUpdate} from '../../../../context/GlobalContext'
 export default function Basket(props) {
-  const globalState = useGlobalState()
-  const globalStateUpdate = useGlobalStateUpdate()  
+  const globalState = UseGlobalState()
+  const globalStateUpdate = UseGlobalStateUpdate()  
   const { cartItems, onAdd, onRemove } = props;
   console.log(cartItems)
   const itemsPrice = cartItems.reduce((a, c) => a + c.qty * c.price, 0);

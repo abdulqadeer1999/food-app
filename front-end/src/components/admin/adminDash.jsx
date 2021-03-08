@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import Navbar from '../Navbar/Nav'
 import axios from 'axios'
 import { useHistory } from "react-router-dom"
-import { useGlobalState, useGlobalStateUpdate } from '../../context/GlobalContext'
+import { UseGlobalState, UseGlobalStateUpdate } from '../../context/GlobalContext'
 function AdminDashboard() {
     let [orderData, setOrderData] = useState([])
-    const globalStateUpdate = useGlobalStateUpdate()
+    const globalStateUpdate = UseGlobalStateUpdate()
     let history = useHistory()
     function logout() {
         axios({

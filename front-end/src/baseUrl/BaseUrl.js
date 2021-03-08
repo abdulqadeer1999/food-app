@@ -1,2 +1,1 @@
-let url = "http://localhost:5000"
-export default url
+export const BaseURL = "http://localhost:5000";

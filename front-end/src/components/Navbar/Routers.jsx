@@ -9,9 +9,9 @@ import Basket from '../dashboard/cart/cart/Basket'
 import CheckOutForm from '../dashboard/cart/cart/checkForm'
 import AddProducts from '../admin/Products'
 
-import { useGlobalState } from '../../context/GlobalContext'
+import { UseGlobalState } from '../../context/GlobalContext'
 function RoutesConfig() {
-    const globalState = useGlobalState()
+    const globalState = UseGlobalState()
 
     return (
         <div>

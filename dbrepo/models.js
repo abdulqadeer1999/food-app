@@ -28,7 +28,6 @@ var foodUserSchema = new mongoose.Schema({
     "name": String,
     "email": String,
     "password": String,
-    "phone": String,
     "role": { "type": String, "default": "user" },
     "createdOn": { "type": Date, "default": Date.now },
     "activeSince": Date

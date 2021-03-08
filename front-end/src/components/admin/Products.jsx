@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 // import Navbar from '../Navbar/Navbar'
 import Navbar from '../Navbar/Nav'
 import axios from 'axios'
-import Url from '../../baseUrl/BaseUrl'
+// import Url from '../../baseUrl/BaseUrl'
+import { BaseURL } from '../../baseUrl/BaseUrl'
 function AddProducts() {
     let [msg, setMsg] = useState()
 
@@ -22,7 +23,7 @@ function AddProducts() {
 
         axios({
             method: 'post',
-            url: Url + "/addProduct",
+            url: BaseURL + "/addProduct",
             data: formData,
             headers: { 'Content-Type': 'multipart/form-data' },
             withCredentials: true
